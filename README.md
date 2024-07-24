@@ -5,7 +5,7 @@
 This repository is an implementation of the re-usable text classifier model. It is implemented in flexible way so that it can be used with any documents dataset with the use of CSV-formatted data, and a JSON-formatted data schema file. 
 The following are the requirements for using your data with this model:
 
-- The data must be in CSV format.
+- The data must be in CSV format (it can be zipped).
 - The schema file must contain an idField and target columns.
 - The train file must contain an ID field. The train data must also contain a target column.
 
@@ -22,7 +22,7 @@ The following is the directory structure of the project:
 You can place these files in the `inputs/schema` and `inputs/data/` folders, respectively.
   - **`/inputs/`**: This directory contains all the input files for this project, including the `data` and `schema` files.
   - **`jupyter/`** The directory contains a tutorial jupyter notebook with a small example of how the mini-rag works.
-  - **`/model/`**: This directory is used to store the database of documents along with the embeddings.
+  - **`/db/`**: This directory is used to store the database of documents along with the embeddings.
 - **`src/`**: This directory holds the source code for the project. It is further divided into various subdirectories:
   - **`serve.py`**: This script is used to serve the model as a REST API using **FastAPI**. It loads the artifacts and creates a FastAPI server to serve the model. It provides 2 endpoints: `/ping` and `/infer`. The `/ping` endpoint is used to check if the server is running. The `/infer` endpoint is used to make predictions.
   - **`create_db.py`**: This script is used to create the database. It loads the data, generates embeddings and saves the artifacts in the path `./model/`.
