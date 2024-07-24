@@ -1,0 +1,59 @@
+{
+    "title": "Papers Abstracts",
+    "description": "This dataset contains papers published in ML conferences from 2010 to 2023",
+    "inputDataFormat": "CSV",
+    "encoding": "utf-8",
+    "idField": {
+      "name": "id",
+      "description": "Unique paper identifier"
+    },
+    "target": {
+      "name": "abstract",
+      "description": "The abstract of the paper."
+    },
+    "attributes": [
+      {
+        "name": "paper_name",
+        "description": "The title of the paper",
+        "dataType": "STRING",
+        "example": "Discrete Key-Value Bottleneck.",
+        "nullable": false
+      },
+      {
+        "name": "authors",
+        "description": "List of paper authors",
+        "dataType": "list",
+        "example": ["Frederik Träuble", "Anirudh Goyal", "Nasim Rahaman", "Michael Curtis Mozer", "Kenji Kawaguchi", "Yoshua Bengio", "Bernhard Schölkopf"],
+        "nullable": false
+      },
+      {
+        "name": "year",
+        "description": "Year of publication",
+        "dataType": "NUMERIC",
+        "example": 2023,
+        "nullable": false
+      },
+      {
+        "name": "thigh_x",
+        "description": "acceleration of thigh sensor in x-direction (down) in the unit g",
+        "dataType": "NUMERIC",
+        "example": -0.96489748,
+        "nullable": false
+      },
+      {
+        "name": "url",
+        "description": "URL of where the paper can be found",
+        "dataType": "STRING",
+        "example": "https://proceedings.mlr.press/v202/trauble23a.html",
+        "nullable": false
+      },
+      {
+        "name": "source",
+        "description": "The name of the conference where the paper was published",
+        "dataType": "STRING",
+        "example": "ICML",
+        "nullable": false
+      }
+    ]
+  }
+  
