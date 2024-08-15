@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This repository is an implementation of the re-usable text classifier model. It is implemented in flexible way so that it can be used with any documents dataset with the use of CSV-formatted data, and a JSON-formatted data schema file. 
+This repository is an implementation of the re-usable Mini-RAG. It is implemented in flexible way so that it can be used with any documents dataset with the use of CSV-formatted data, and a JSON-formatted data schema file. 
 The following are the requirements for using your data with this model:
 
 - The data must be in CSV format (it can be zipped).
