@@ -11,6 +11,33 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from pydantic import BaseModel, Field
+from typing import List
+
+
+class DocumentInstance(BaseModel):
+    id: int = Field(..., example=1, description="Unique identifier for the document.")
+    text: str = Field(
+        ..., example="Document 1 text", description="Text content of the document."
+    )
+
+
+class InferenceRequest(BaseModel):
+    instances: List[DocumentInstance] = Field(
+        ...,
+        example=[
+            {"id": 1, "text": "Document 1 text"},
+            {"id": 2, "text": "Document 2 text"},
+        ],
+        description="List of document instances to process.",
+    )
+    top_n: int = Field(
+        ...,
+        ge=1,
+        example=5,
+        description="Number of similar documents to retrieve for each input document.",
+    )
+
 
 device = (
     "cuda"
@@ -76,12 +103,12 @@ def create_app(model_resources: Dict[str, Any]) -> FastAPI:
         )
 
     @app.post("/infer", tags=["inference"], response_class=JSONResponse)
-    async def infer(request: Request) -> dict:
+    async def infer(request: InferenceRequest) -> dict:
         """POST endpoint that takes input data as a JSON object and returns
-        predicted class probabilities.
+        top_n similar documents.
 
         Args:
-            request (Request): The request body containing the input data.
+            request (InferenceRequest): The request body containing the input data.
 
         Raises:
             HTTPException: If there is an error during inference.
@@ -93,9 +120,15 @@ def create_app(model_resources: Dict[str, Any]) -> FastAPI:
             request_id = generate_unique_request_id()
             print(f"Responding to inference request. Request id: {request_id}")
             print("Starting predictions...")
-            data = await request.json()
-            inference_documents = data["instances"]
-            n = data["top_n"]
+            inference_instances = request.instances
+            inference_ids = [doc.id for doc in inference_instances]
+
+            assert len(set(inference_ids)) == len(
+                inference_ids
+            ), "Document ids must be unique."
+
+            inference_documents = [doc.text for doc in inference_instances]
+            n = request.top_n
             db = model_resources["db"]
             db_documents = [db[key][0] for key in db.keys()]
             db_embeddings = np.array([db[key][1] for key in db.keys()])
@@ -108,9 +141,9 @@ def create_app(model_resources: Dict[str, Any]) -> FastAPI:
             top_n_indices = similarity.argsort()[:, -n:]
 
             predictions_response = {}
-            for i, doc in enumerate(inference_documents):
+            for i, id in enumerate(inference_ids):
                 similar_documents = [db_documents[idx] for idx in top_n_indices[i]]
-                predictions_response[doc] = similar_documents
+                predictions_response[id] = similar_documents
 
             print("Returning predictions...")
             return predictions_response

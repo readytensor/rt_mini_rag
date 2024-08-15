@@ -50,20 +50,34 @@ To get predictions for a single sample, use the following command:
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{
   {
-    "top_n": 1,
-    "instances": [
-        "document 1",
-    ]
+  "top_n": 1,
+  "instances": [
+    {
+      "id": 1,
+      "text": "We present NeuroLKH, a novel algorithm that combines deep learning with the strong traditional heuristic Lin-Kernighan-Helsgaun (LKH) for solving Traveling Salesman Problem. Specifically, we train a Sparse Graph Network (SGN) with supervised learning for edge scores and unsupervised learning for node penalties, both of which are critical for improving the performance of LKH. Based on the output of SGN, NeuroLKH creates the edge candidate set and transforms edge distances to guide the searching process of LKH. Extensive experiments firmly demonstrate that, by training one model on a wide range of problem sizes, NeuroLKH significantly outperforms LKH and generalizes well to much larger sizes. Also, we show that NeuroLKH can be applied to other routing problems such as Capacitated Vehicle Routing Problem (CVRP), Pickup and Delivery Problem (PDP), and CVRP with Time Windows (CVRPTW)."
+    },
+    {
+      "id": 2,
+      "text": "Forecasting is a common data science task that helps organizations with capacity planning, goal setting, and anomaly detection. Despite its importance, there are serious challenges associated with producing reliable and high-quality forecasts—especially when there are a variety of time series and analysts with expertise in time series modeling are relatively rare. To address these challenges, we describe a practical approach to forecasting “at scale” that combines configurable models with analyst-in-the-loop performance analysis. We propose a modular regression model with interpretable parameters that can be intuitively adjusted by analysts with domain knowledge about the time series. We describe performance analyses to compare and evaluate forecasting procedures, and automatically flag forecasts for manual review and adjustment. Tools that help analysts to use their expertise most effectively enable reliable, practical forecasting of business time series."
+    }
+  ]
 }' http://localhost:8080/infer
 ```
 The key `instances` contains a list of objects, each of which is a sample for which the prediction is requested. The server will respond with a JSON object containing the predicted similar document for each input record:
 ```json
 {
-    "We present NeuroLKH, a novel algorithm that combines deep learning with the strong traditional heuristic Lin-Kernighan-Helsgaun (LKH) for solving Traveling Salesman Problem. Specifically, we train a Sparse Graph Network (SGN) with supervised learning for edge scores and unsupervised learning for node penalties, both of which are critical for improving the performance of LKH. Based on the output of SGN, NeuroLKH creates the edge candidate set and transforms edge distances to guide the searching process of LKH. Extensive experiments firmly demonstrate that, by training one model on a wide range of problem sizes, NeuroLKH significantly outperforms LKH and generalizes well to much larger sizes. Also, we show that NeuroLKH can be applied to other routing problems such as Capacitated Vehicle Routing Problem (CVRP), Pickup and Delivery Problem (PDP), and CVRP with Time Windows (CVRPTW).": [
-    "Application of deep learning to NP-hard combinatorial optimization problems is an emerging research trend, and a number of interesting approaches have been published over the last few years. In this work we address robust optimization, which is a more complex variant where a max-min problem is to be solved. We obtain robust solutions by solving the inner minimization problem exactly and apply Reinforcement Learning to learn a heuristic for the outer problem. The minimization term in the inner objective represents an obstacle to existing RL-based approaches, as its value depends on the full solution in a non-linear manner and cannot be evaluated for partial solutions constructed by the agent over the course of each episode. We overcome this obstacle by defining the reward in terms of the one-step advantage over a baseline policy whose role can be played by any fast heuristic for the given problem. The agent is trained to maximize the total advantage, which, as we show, is equivalent to the original objective. We validate our approach by solving min-max versions of standard benchmarks for the Capacitated Vehicle Routing and the Traveling Salesperson Problem, where our agents obtain near-optimal solutions and improve upon the baselines."
+    "1": [
+        "We present NeuroLKH, a novel algorithm that combines deep learning with the strong traditional heuristic Lin-Kernighan-Helsgaun (LKH) for solving Traveling Salesman Problem. Specifically, we train a Sparse Graph Network (SGN) with supervised learning for edge scores and unsupervised learning for node penalties, both of which are critical for improving the performance of LKH. Based on the output of SGN, NeuroLKH creates the edge candidate set and transforms edge distances to guide the searching process of LKH. Extensive experiments firmly demonstrate that, by training one model on a wide range of problem sizes, NeuroLKH significantly outperforms LKH and generalizes well to much larger sizes. Also, we show that NeuroLKH can be applied to other routing problems such as Capacitated Vehicle Routing Problem (CVRP), Pickup and Delivery Problem (PDP), and CVRP with Time Windows (CVRPTW)."
+    ],
+    "2": [
+        "Abstract\n\n        Revenue forecasting is required by most enterprises for strategic business planning and for providing expected future results to investors. However, revenue forecasting processes in most companies are time-consuming and error-prone as they are performed manually by hundreds of financial analysts. In this paper, we present a novel machine learning based revenue forecasting solution that we developed to forecast 100% of Microsoft's revenue (around $85 Billion in 2016), and is now deployed into production as an end-to-end automated and secure pipeline in Azure. Our solution combines historical trend and seasonal patterns with additional information, e.g., sales pipeline data, within a unified modeling framework. In this paper, we describe our framework including the features, method for hyperparameters tuning of ML models using time series cross-validation, and generation of prediction intervals. We also describe how we architected an end-to-end secure and automated revenue forecasting solution on Azure using Cortana Intelligence Suite. Over consecutive quarters, our machine learning models have continuously produced forecasts with an average accuracy of 98-99 percent for various divisions within Microsoft's Finance organization. As a result, our models have been widely adopted by them and are now an integral part of Microsoft's most important forecasting processes, from providing Wall Street guidance to managing global sales performance."
     ]
 }
 ```
+
+# OpenAPI
+Since the service is implemented using FastAPI, we get automatic documentation of the APIs offered by the service.
+Visit the docs at: http://localhost:8080/docs
 
 ## Requirements
 
